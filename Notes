@@ -1,0 +1,57 @@
+Paper: McLaughlin RT, Asthana M, Di Meo M, Ceccarelli M, Jacob HJ, Masica DL. Fast, accurate, and racially unbiased pan-cancer tumor-only variant calling with tabular machine learning. NPJ Precis Oncol. 2023 Jan 7;7(1):4. doi: 10.1038/s41698-022-00340-1. PMID: 36611079; PMCID: PMC9825621.
+
+Goal: 
+- Apply machine learning (TabNet, XGboost, LighGBM) to task of somatic v. germline tumor only variant calling 
+- accurately distinguish somatic v. germline mutations to address issue of inflated TMB scores of under represented groups across germline databases
+
+End Result: 
+- All 3 models achieved "sate of the art" performance on holdout test datasets (TCGA)
+- racial bias was eliminated with ML approach 
+
+Models: 
+
+TabNet: Deep learning model created by google in 2019 to outperform tree-based models 
+XGboost: Gradient boosted decision tree library (level-wise tree growth) 
+LightGBM: Histogram-based algorithm - gradient boosted model (leaf-wise tree growth) 
+
+Introduction: 
+- As shown in Supplementary Figure 1: an issue with calling somatic v. germline mutations is the overlap of true germline v. true somatic mutations.
+This leading to a high false positive rate in patients with tumor-only somatic variant calling
+- matched normals are not always easy to aquire 
+- models were trained using somatic variant pupeline as well as matched normal pipeline (Figure 1) 
+
+Training Set Construction: 
+- 105 tumor samples across 7 cancer types 
+- sequenced with Agilent Kit 
+
+Validation Set: 
+- 45 tumor samples with 3 cancer types absent from training type 
+- sequenced with SeqCAP 
+
+Results: 
+- Sensitivity and Specificity across patient level performance varies per cancer subtype 
+- AUC's of 0.96 (TabNet) 0.99 (XGboost), 0.98 (LightGBM)
+- All models perform better on SNV's than indels 
+- concordance increased with all models as compared to the naive approach 
+- racial bias was elimated for XGboost and LightGBM model - slight bias with TabNet - and slight bias with PureCN 
+- run times were significantly faster for ML models v. PureCN although PureCN is larger piece of software in R that performs more actions
+- most important features were not related to ontology which could explain elimination of racial bias of databases 
+
+Discussion and further Notes: 
+- increase in capture kits used and increase with training set size and diversity will improve model performance 
+- No algorithm will be as good as matched normal 
+
+Project Idea: 
+- Use three models disscussed in paper to predict drug resistance of common oncogenes 
+
+
+
+
+
+
+
+
+
+
+
+
